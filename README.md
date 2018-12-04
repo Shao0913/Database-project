@@ -1,5 +1,32 @@
 # Database-project
-Coconut implementation
+
+		Coconut DataBase Project
+		-------------------------
+		-------------------------
+
+This project takes an input file containing dataseries, builds a tree and
+supports querying for the tree.
+
+
+Required Files
+--------------
+* output.txt
+* znormtime.cpp
+* tree_m.h
+
+
+Procedure
+-------------
+* The required files should be stored in the same directory.
+* The znormtime.cpp file only should be ran because it automatically links to other files.
+* First, you have to input 'l' to preprocess a dataset (This means applying z-nomalization).
+  This preprocessing will create two files "saxoutput.txt" and "timerecord.txt".
+* Then, you can input 'a' to automatically build a tree and prepare for query.
+* Input '3' to begin a query process then enter a dataseries and end with '#' symbol.
+* The output of this query will be the sortable summarization (a long integer number) and the 
+  dataseries that has been found in the tree.
+
+
 
 It build on VS code 2017 IDE.  output.txt is raw data file produced by synthetic generator, which will be used as input file here. Therefore, in order to run this program, the output.txt has to be placed with code in same directory and configured as input arguments (main function requries arguments input). 
 
