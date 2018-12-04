@@ -1,35 +1,5 @@
 #pragma once
-/* The following program performs deletion on a B-Tree. It contains functions
-   specific for deletion along with all the other functions provided in the
-   previous articles on B-Trees. See https://www.geeksforgeeks.org/b-tree-set-1-introduction-2/
-   for previous article.
 
-   The deletion function has been compartmentalized into 8 functions for ease
-   of understanding and clarity
-
-   The following functions are exclusive for deletion
-   In class BTreeNode:
-	1) remove
-	2) removeFromLeaf
-	3) removeFromNonLeaf
-	4) getPred
-	5) getSucc
-	6) borrowFromPrev
-	7) borrowFromNext
-	8) merge
-	9) findKey
-
-   In class BTree:
-	 1) remove
-
-  The removal of a key from a B-Tree is a fairly complicated process. The program handles
-  all the 6 different cases that might arise while removing a key.
-
-  Testing: The code has been tested using the B-Tree provided in the CLRS book( included
-  in the main function ) along with other cases.
-
-  Reference: CLRS3 - Chapter 18 - (499-502)
-  It is advised to read the material in CLRS before taking a look at the code. */
 
 #include<iostream> 
 using namespace std;
@@ -37,7 +7,7 @@ namespace tree_m {
 	// A BTree node 
 	class BTreeNode
 	{
-		int *keys;  // An array of keys 
+		uint64_t *keys;  // An array of keys 
 		int t;      // Minimum degree (defines the range for number of keys) 
 		BTreeNode **C; // An array of child pointers 
 		int n;     // Current number of keys 
@@ -46,13 +16,13 @@ namespace tree_m {
 
 	public:
 
-		BTreeNode(int _t, bool _leaf);   // Constructor 
+		BTreeNode(uint64_t _t, bool _leaf);   // Constructor 
 
 		// A function to traverse all nodes in a subtree rooted with this node 
 		void traverse();
 
 		// A function to search a key in subtree rooted with this node. 
-		BTreeNode *search(int k);   // returns NULL if k is not present. 
+		BTreeNode *search(uint64_t k);   // returns NULL if k is not present. 
 
 		// A function that returns the index of the first key that is greater 
 		// or equal to k 
@@ -62,7 +32,7 @@ namespace tree_m {
 		// this node. The assumption is, the node must be non-full when this 
 		// function is called 
 		void insertNonFull(int k,string line);
-		void insertNonFull(int k, string *line);
+		void insertNonFull(uint64_t k, string *line);
 		// A utility function to split the child y of this node. i is index 
 		// of y in child array C[].  The Child y must be full when this 
 		// function is called 
@@ -134,13 +104,13 @@ namespace tree_m {
 		}
 
 		// function to search a key in this tree 
-		BTreeNode* search(int k)
+		BTreeNode* search(uint64_t k)
 		{
 			return (root == NULL) ? NULL : root->search(k);
 		}
 
 		// The main function that inserts a new key in this B-Tree 
-		void insert(int k, string line);
+		void insert(uint64_t k, string line);
 
 		// The main function that removes a new key in thie B-Tree 
 		void remove(int k);
@@ -152,7 +122,7 @@ namespace tree_m {
 		std::string getsequence(BTreeNode *y);
 	};
 
-	BTreeNode::BTreeNode(int t1, bool leaf1)
+	BTreeNode::BTreeNode(uint64_t t1, bool leaf1)
 	{
 		// Copy the given minimum degree and leaf property 
 		t = t1;
@@ -160,7 +130,7 @@ namespace tree_m {
 
 		// Allocate memory for maximum number of possible keys 
 		// and child pointers 
-		keys = new int[2 * t - 1];
+		keys = new uint64_t[2 * t - 1];
 		C = new BTreeNode *[2 * t];
 
 		// Initialize the number of keys as 0 
@@ -451,7 +421,7 @@ namespace tree_m {
 	}
 
 	// The main function that inserts a new key in this B-Tree 
-	void BTree::insert(int k,string line)
+	void BTree::insert(uint64_t k,string line)
 	{
 		// If tree is empty 
 		if (root == NULL)
@@ -460,6 +430,7 @@ namespace tree_m {
 			root = new BTreeNode(t, true);
 			root->keys[0] = k;  // Insert key 
 			root->n = 1;  // Update number of keys in root 
+			root->sequence = new string(line);
 		}
 		else // If tree is not empty 
 		{
@@ -543,7 +514,7 @@ namespace tree_m {
 	}
 
 
-	void BTreeNode::insertNonFull(int k, string *line)
+	void BTreeNode::insertNonFull(uint64_t k, string *line)
 	{
 		// Initialize index as index of rightmost element 
 		int i = n - 1;
@@ -655,7 +626,7 @@ namespace tree_m {
 	}
 
 	// Function to search key k in subtree rooted with this node 
-	BTreeNode *BTreeNode::search(int k)
+	BTreeNode *BTreeNode::search(uint64_t k)
 	{
 		// Find the first key greater than or equal to k 
 		int i = 0;
